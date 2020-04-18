@@ -4,6 +4,10 @@ onready var timer = $Timer
 onready var column_timer = $ColumnTimer
 var current_column = 0
 
+signal pattern_emitted
+
+var pattern_raw = []
+
 var light_on_material = preload("res://Materials/LightOn.tres")
 var light_material = preload("res://Materials/Light.tres")
 
@@ -24,6 +28,28 @@ func _on_Button_flipped_on(row, col):
 func _on_Timer_timeout():
 	column_timer.start()
 
+func fix_pattern(pattern_raw):
+	var pattern_fixed = []
+	for p in pattern_raw:
+		if p == null:
+			pattern_fixed.append(null)
+		else:
+			pattern_fixed.append(p - 1)
+	return pattern_fixed
+
+# TODO: deprecated
+func compute_deltas(pattern_raw):
+	var pattern_deltas = []
+	var prev_pattern = null
+	for p in pattern_raw:
+		if p == null:
+			pattern_deltas.append(null)
+		elif prev_pattern == null:
+			pattern_deltas.append(0)
+		else:
+			pattern_deltas.append(p - prev_pattern)
+		prev_pattern = p
+	return pattern_deltas
 
 func _on_ColumnTimer_timeout():
 	current_column += 1
@@ -33,6 +59,7 @@ func _on_ColumnTimer_timeout():
 		light.set_surface_material(0, light_material)
 		column_timer.stop()
 		current_column = 0
+		pattern_raw = []
 		timer.start()
 	else:
 		for column_idx in range(5):
@@ -41,11 +68,19 @@ func _on_ColumnTimer_timeout():
 				light.set_surface_material(0, light_on_material)
 			else:
 				light.set_surface_material(0, light_material)
-			for row_idx in range(3):
-				var button = get_node("Flat/Button_r{0}_c{1}".format([row_idx + 1, current_column]))
-				if button.is_on:
-					for child in button.get_children():
-						if child is AudioStreamPlayer:
-							child.play()
+		var prev_pattern = 0
+		var pattern_len = len(pattern_raw)
+		for row_idx in range(3):
+			var button = get_node("Flat/Button_r{0}_c{1}".format([row_idx + 1, current_column]))
+			if button.is_on:
+				pattern_raw.append(row_idx)
+				for child in button.get_children():
+					if child is AudioStreamPlayer:
+						child.play()
+				break
+		if len(pattern_raw) <= pattern_len:
+			pattern_raw.append(null)
+		var pattern_deltas = fix_pattern(pattern_raw)
+		emit_signal("pattern_emitted", pattern_deltas)
 		
 		
