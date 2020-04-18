@@ -1,0 +1,58 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Scenes/Button.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Materials/Board.tres" type="Material" id=2]
+
+[sub_resource type="CubeMesh" id=1]
+size = Vector3( 3, 0.2, 1 )
+
+[node name="Board" type="Spatial"]
+
+[node name="Flat" type="MeshInstance" parent="."]
+mesh = SubResource( 1 )
+material/0 = ExtResource( 2 )
+
+[node name="Button" parent="Flat" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.128296, 0 )
+
+[node name="Button2" parent="Flat" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.3, 0.128, 0 )
+
+[node name="Button3" parent="Flat" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.6, 0.128, 0 )
+
+[node name="Button4" parent="Flat" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.3, 0.128, 0 )
+
+[node name="Button5" parent="Flat" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.6, 0.128, 0 )
+
+[node name="Button10" parent="Flat" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.128296, -0.25 )
+
+[node name="Button9" parent="Flat" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.3, 0.128, -0.25 )
+
+[node name="Button8" parent="Flat" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.6, 0.128, -0.25 )
+
+[node name="Button7" parent="Flat" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.3, 0.128, -0.25 )
+
+[node name="Button6" parent="Flat" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.6, 0.128, -0.25 )
+
+[node name="Button15" parent="Flat" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.128296, 0.25 )
+
+[node name="Button14" parent="Flat" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.3, 0.128, 0.25 )
+
+[node name="Button13" parent="Flat" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.6, 0.128, 0.25 )
+
+[node name="Button12" parent="Flat" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.3, 0.128, 0.25 )
+
+[node name="Button11" parent="Flat" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.6, 0.128, 0.25 )
