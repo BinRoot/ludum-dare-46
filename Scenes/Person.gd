@@ -22,8 +22,12 @@ var _original_right_arm_translation : Vector3
 
 var _favorite_pattern = []
 var _pattern_rects = []
+var _pattern_holder : Panel
+
+var _time_since_aroused = 0
 
 func _ready():
+	randomize()
 	_original_body_translation = body.translation
 	_original_head_translation = head.translation
 	_original_left_arm_translation = left_arm.translation
@@ -51,12 +55,14 @@ func _ready():
 				_favorite_pattern.append(null)
 			else:
 				_favorite_pattern.append(r - 1)
-	print(_favorite_pattern)
+	_pattern_holder = Panel.new()
+	add_child(_pattern_holder)
 	for pattern in _favorite_pattern:
 		var cr = ColorRect.new()
 		cr.rect_min_size = Vector2(PATTERN_SIZE, PATTERN_SIZE)
 		add_child(cr)
 		_pattern_rects.append(cr)
+	
 
 func handle_pattern(pattern):
 	if len(_favorite_pattern) > len(pattern):
@@ -66,6 +72,7 @@ func handle_pattern(pattern):
 	for idx in range(start, start + len(_favorite_pattern)):
 		snip.append(pattern[idx])
 	if snip == _favorite_pattern:
+		_time_since_aroused = 0
 		if vibe == VIBE_IDLE:
 			vibe = VIBE_LOW
 		elif vibe == VIBE_LOW:
@@ -73,7 +80,12 @@ func handle_pattern(pattern):
 
 func draw_pattern():
 	var vec2d : Vector2 = get_viewport().get_camera().unproject_position(global_transform.origin)
-	vec2d.x -= (PATTERN_SIZE * len(_favorite_pattern)) / 2
+	var width = (PATTERN_SIZE + 1) * len(_favorite_pattern)
+	vec2d.x -= width / 2
+	_pattern_holder.margin_left = vec2d.x  - 1
+	_pattern_holder.margin_top = vec2d.y - PATTERN_SIZE - 2
+	_pattern_holder.rect_min_size.x = width
+	_pattern_holder.rect_min_size.y = width
 	for i in range(len(_favorite_pattern)):
 		var pattern = _favorite_pattern[i]
 		var cr : ColorRect = _pattern_rects[i]
@@ -91,6 +103,13 @@ func draw_pattern():
 
 func _process(delta):
 	_total_time += delta
+	_time_since_aroused += delta
+	if _time_since_aroused > 10:
+		if vibe == VIBE_HIGH:
+			vibe = VIBE_LOW
+		elif vibe == VIBE_LOW:
+			vibe = VIBE_IDLE
+		_time_since_aroused = 0
 	body.translation = _original_body_translation
 	body.translation.y += sin(_total_time * vibe*4) / (16 / vibe)
 	head.translation = _original_head_translation

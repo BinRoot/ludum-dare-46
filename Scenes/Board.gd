@@ -2,9 +2,15 @@ extends Spatial
 
 onready var timer = $Timer
 onready var column_timer = $ColumnTimer
+onready var confetti_button = $ConfettiButton
+onready var fireworks_button = $FireworksButton
+onready var fog_button = $FogButton
 var current_column = 0
 
 signal pattern_emitted
+signal fireworks_emitted
+signal fog_emitted
+signal confetti_emitted
 
 var pattern_raw = []
 
@@ -14,6 +20,22 @@ var light_material = preload("res://Materials/Light.tres")
 func _ready():
 	pass 
 
+func enable_buttons(item_dict):
+	if 'fog' in item_dict and item_dict['fog'] > 0:
+		enable_fog()
+	if 'fireworks' in item_dict and item_dict['fireworks'] > 0:
+		enable_fireworks()
+	if 'confetti' in item_dict and item_dict['confetti'] > 0:
+		enable_confetti()
+
+func enable_confetti():
+	confetti_button.visible = true
+	
+func enable_fireworks():
+	fireworks_button.visible = true
+	
+func enable_fog():
+	fog_button.visible = true
 
 func _process(delta):
 	pass
@@ -84,3 +106,15 @@ func _on_ColumnTimer_timeout():
 		emit_signal("pattern_emitted", pattern_deltas)
 		
 		
+
+
+func _on_FireworksButton_flipped_on():
+	emit_signal("fireworks_emitted")
+
+
+func _on_ConfettiButton_flipped_on():
+	emit_signal("fireworks_emitted")
+
+
+func _on_FogButton_flipped_on():
+	emit_signal("fog_emitted")
