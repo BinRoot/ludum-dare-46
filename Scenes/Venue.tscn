@@ -15,13 +15,12 @@ script = ExtResource( 5 )
 [node name="Camera" type="Camera" parent="."]
 transform = Transform( 1, 0, 0, 0, 0.765719, 0.643175, 0, -0.643175, 0.765719, 0, 6.418, 16 )
 
-[node name="RayCast" type="RayCast" parent="."]
-
 [node name="Ground" type="MeshInstance" parent="."]
 mesh = SubResource( 1 )
 material/0 = ExtResource( 4 )
 
 [node name="Crowd" type="Spatial" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 6.62711 )
 
 [node name="Person" parent="Crowd" instance=ExtResource( 2 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.06829, -4.95892 )
@@ -42,4 +41,4 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 9.96048, 1.06829, -4.95892 )
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 13.133 )
 
 [node name="Board" parent="Stage" instance=ExtResource( 3 )]
-transform = Transform( 3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 2.776, 0.6 )
+transform = Transform( 3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 2.858, 0.374 )
