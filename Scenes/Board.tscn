@@ -47,7 +47,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.6, 0.128, 0 )
 row = 2
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="Flat/Button_r2_c1"]
-stream = ExtResource( 7 )
+stream = ExtResource( 9 )
 
 [node name="Button_r2_c2" parent="Flat" instance=ExtResource( 1 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.3, 0.128, 0 )
@@ -85,7 +85,7 @@ stream = ExtResource( 7 )
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.6, 0.128, -0.25 )
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="Flat/Button_r1_c1"]
-stream = ExtResource( 5 )
+stream = ExtResource( 8 )
 
 [node name="Button_r1_c2" parent="Flat" instance=ExtResource( 1 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.3, 0.128, -0.25 )
@@ -120,7 +120,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.6, 0.128, 0.25 )
 row = 3
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="Flat/Button_r3_c1"]
-stream = ExtResource( 6 )
+stream = ExtResource( 10 )
 
 [node name="Button_r3_c2" parent="Flat" instance=ExtResource( 1 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.3, 0.128, 0.25 )

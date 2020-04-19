@@ -21,9 +21,9 @@ var PRICE_FIREWORKS = 1000
 var total_cash = 0
 var previous_performance = 1
 var item_dict = {
-	"fireworks": 1,
-	"confetti": 1,
-	"fog": 1
+	"fireworks": 0,
+	"confetti": 0,
+	"fog": 0
 }
 
 func _process(delta):
