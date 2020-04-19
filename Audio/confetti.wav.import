@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/confetti.wav-de642cd0e15bb3b83e8e95be6274204a.sample"
+
+[deps]
+
+source_file="res://Audio/confetti.wav"
+dest_files=[ "res://.import/confetti.wav-de642cd0e15bb3b83e8e95be6274204a.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

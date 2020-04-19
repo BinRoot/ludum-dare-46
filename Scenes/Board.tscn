@@ -190,14 +190,17 @@ wait_time = 0.25
 [node name="ConfettiButton" parent="." instance=ExtResource( 11 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.02467, 0.132272, 0.253985 )
 visible = false
+icon = "confetti"
 
 [node name="FireworksButton" parent="." instance=ExtResource( 11 )]
 transform = Transform( 1.1, 0, 0, 0, 1.1, 0, 0, 0, 1.1, 0.987597, 0.132272, 0.0154525 )
 visible = false
+icon = "fireworks"
 
 [node name="FogButton" parent="." instance=ExtResource( 11 )]
 transform = Transform( 0.7, 0, 0, 0, 0.7, 0, 0, 0, 0.7, -1.02467, 0.132272, -0.210746 )
 visible = false
+icon = "fog"
 [connection signal="flipped_on" from="Flat/Button_r2_c1" to="." method="_on_Button_flipped_on"]
 [connection signal="flipped_on" from="Flat/Button_r2_c2" to="." method="_on_Button_flipped_on"]
 [connection signal="flipped_on" from="Flat/Button_r2_c3" to="." method="_on_Button_flipped_on"]

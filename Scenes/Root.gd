@@ -2,34 +2,71 @@ extends Node
 
 onready var current_venue
 onready var control = $Control
-onready var cash_label = $Control/Cash
+onready var cash_label = $Control/HBoxContainer/VBoxContainer/Panel/Cash
 onready var venue_scene = preload("res://Scenes/Venue.tscn")
+onready var fog_owned_label = $Control/HBoxContainer/VBoxContainer/HBoxContainer/FogOwned
+onready var confetti_owned_label = $Control/HBoxContainer/VBoxContainer/HBoxContainer2/ConfettiOwned
+onready var fireworks_owned_label = $Control/HBoxContainer/VBoxContainer/HBoxContainer3/FireworksOwned
+onready var fog_price_label = $Control/HBoxContainer/VBoxContainer/HBoxContainer/FogPrice
+onready var confetti_price_label = $Control/HBoxContainer/VBoxContainer/HBoxContainer2/ConfettiPrice
+onready var fireworks_price_label = $Control/HBoxContainer/VBoxContainer/HBoxContainer3/FireworksPrice
+onready var title : Label = $Control/Title
+onready var winnings_label : Label = $Control/WinningsPanel/Winnings
+
+var PRICE_FOG = 100
+var PRICE_CONFETTI = 500
+var PRICE_FIREWORKS = 1000
 
 var total_cash = 0
 var previous_performance = 1
 var item_dict = {
-	"fireworks": 1
+	"fireworks": 0,
+	"confetti": 0,
+	"fog": 0
 }
+
+func _process(delta):
+	update_cash()
+	update_items()
+	$Control/HBoxContainer.visible = total_cash > 0
+	
 
 func _ready():
 	control.visible = true
 
+func update_items():
+	var num_fog_owned = 0
+	if 'fog' in item_dict:
+		num_fog_owned = item_dict['fog']
+	fog_owned_label.text = "  {0} owned".format([num_fog_owned])
+	var num_confetti_owned = 0
+	if 'confetti' in item_dict:
+		num_confetti_owned = item_dict['confetti']
+	confetti_owned_label.text = "  {0} owned".format([num_confetti_owned])
+	var num_fireworks_owned = 0
+	if 'fireworks' in item_dict:
+		num_fireworks_owned = item_dict['fireworks']
+	fireworks_owned_label.text = "  {0} owned".format([num_fireworks_owned])
+	fog_price_label.text = "${0}".format([PRICE_FOG])
+	confetti_price_label.text = "${0}".format([PRICE_CONFETTI])
+	fireworks_price_label.text = "${0}".format([PRICE_FIREWORKS])
 
-#func _process(delta):
-#	pass
+func update_cash():
+	cash_label.text = "Cash: ${0}".format([int(total_cash)])
 
-
-func _on_Venue_round_ended(cash):
+func _on_Venue_round_ended(cash, _item_dict):
 	current_venue.queue_free()
 	control.visible = true
 	total_cash += cash
-	cash_label.text = "${0}".format([int(total_cash)])
 	if cash > 1000:
 		previous_performance = 3
 	elif cash > 500:
 		previous_performance = 2
 	else:
 		previous_performance = 1
+	item_dict = _item_dict
+	winnings_label.text = "+ ${0}".format([int(cash)])
+	winnings_label.get_parent().visible = true
 
 func _on_Button_pressed():
 	launch_venue()
@@ -43,3 +80,27 @@ func launch_venue():
 	current_venue.init_inventory(item_dict)
 	current_venue.connect("round_ended", self, "_on_Venue_round_ended")
 	
+
+
+func _on_BuyFog_pressed():
+	if total_cash >= PRICE_FOG:
+		total_cash -= PRICE_FOG
+		if not ('fog' in item_dict):
+			item_dict['fog'] = 0
+		item_dict['fog'] += 1
+
+
+func _on_BuyConfetti_pressed():
+	if total_cash >= PRICE_CONFETTI:
+		total_cash -= PRICE_CONFETTI
+		if not ('confetti' in item_dict):
+			item_dict['confetti'] = 0
+		item_dict['confetti'] += 1
+
+
+func _on_BuyFireworks_pressed():
+	if total_cash >= PRICE_FIREWORKS:
+		total_cash -= PRICE_FIREWORKS
+		if not ('fireworks' in item_dict):
+			item_dict['fireworks'] = 0
+		item_dict['fireworks'] += 1

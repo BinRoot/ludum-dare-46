@@ -1,8 +1,9 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://Scenes/Person.gd" type="Script" id=1]
 [ext_resource path="res://Materials/PlayerSkin.tres" type="Material" id=2]
 [ext_resource path="res://Materials/PersonShirt.tres" type="Material" id=3]
+[ext_resource path="res://Audio/pattern_match.wav" type="AudioStream" id=4]
 
 [sub_resource type="CapsuleMesh" id=1]
 
@@ -40,3 +41,15 @@ material/0 = ExtResource( 2 )
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.39185, 0 )
 mesh = SubResource( 4 )
 material/0 = ExtResource( 2 )
+
+[node name="PatternTween" type="Tween" parent="."]
+
+[node name="Panel" type="Panel" parent="."]
+margin_right = 40.0
+margin_bottom = 40.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Ding" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 4 )

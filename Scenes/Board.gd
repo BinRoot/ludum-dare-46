@@ -13,6 +13,7 @@ signal fog_emitted
 signal confetti_emitted
 
 var pattern_raw = []
+var item_dict = {}
 
 var light_on_material = preload("res://Materials/LightOn.tres")
 var light_material = preload("res://Materials/Light.tres")
@@ -20,25 +21,40 @@ var light_material = preload("res://Materials/Light.tres")
 func _ready():
 	pass 
 
-func enable_buttons(item_dict):
+func enable_buttons():
 	if 'fog' in item_dict and item_dict['fog'] > 0:
 		enable_fog()
+	else:
+		disable_fog()
 	if 'fireworks' in item_dict and item_dict['fireworks'] > 0:
 		enable_fireworks()
+	else:
+		disable_fireworks()
 	if 'confetti' in item_dict and item_dict['confetti'] > 0:
 		enable_confetti()
+	else:
+		disable_confetti()
 
 func enable_confetti():
 	confetti_button.visible = true
 	
+func disable_confetti():
+	confetti_button.visible = false
+	
 func enable_fireworks():
 	fireworks_button.visible = true
+	
+func disable_fireworks():
+	fireworks_button.visible = false
 	
 func enable_fog():
 	fog_button.visible = true
 
+func disable_fog():
+	fog_button.visible = false
+
 func _process(delta):
-	pass
+	enable_buttons()
 
 
 func _on_Button_flipped_on(row, col):
@@ -109,12 +125,18 @@ func _on_ColumnTimer_timeout():
 
 
 func _on_FireworksButton_flipped_on():
-	emit_signal("fireworks_emitted")
+	if 'fireworks' in item_dict and item_dict['fireworks'] > 0:
+		emit_signal("fireworks_emitted")
+		item_dict['fireworks'] -= 1
 
 
 func _on_ConfettiButton_flipped_on():
-	emit_signal("fireworks_emitted")
+	if 'confetti' in item_dict and item_dict['confetti'] > 0:
+		emit_signal("confetti_emitted")
+		item_dict['confetti'] -= 1
 
 
 func _on_FogButton_flipped_on():
-	emit_signal("fog_emitted")
+	if 'fog' in item_dict and item_dict['fog'] > 0:
+		emit_signal("fog_emitted")
+		item_dict['fog'] -= 1

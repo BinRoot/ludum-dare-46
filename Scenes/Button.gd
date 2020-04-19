@@ -37,7 +37,6 @@ func flip_off():
 
 func _on_Area_input_event(camera, event, click_position, click_normal, shape_idx):
 	if event is InputEventMouseButton and event.pressed:
-		print("{0}: {1}".format([name, event]))
 		if is_on:
 			flip_off()
 		else:

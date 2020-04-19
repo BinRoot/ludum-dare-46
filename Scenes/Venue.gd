@@ -8,17 +8,22 @@ onready var round_end_timer : Timer = $RoundEnd
 onready var crowd : Spatial = $Crowd
 onready var board : Spatial = $Stage/Board
 onready var fireworks : Particles = $Fireworks
+onready var fog : Particles = $Fog
+onready var confetti : Particles = $Confetti
+onready var fireworks_audio : AudioStreamPlayer = $FireworksAudio
+onready var fog_audio : AudioStreamPlayer = $FogAudio
+onready var confetti_audio : AudioStreamPlayer = $ConfettiAudio
 
 onready var person_scene = preload("res://Scenes/Person.tscn")
 
 var _people
+var _is_first_frame = true
 
 func _ready():
-	#populate_people(5)
 	_people = get_tree().get_nodes_in_group("person")
 	
 func init_inventory(item_dict):
-	board.enable_buttons(item_dict)
+	board.item_dict = item_dict
 
 func populate_people(num):
 	for i in range(num):
@@ -43,6 +48,11 @@ func populate_people(num):
 	_people = get_tree().get_nodes_in_group("person")
 
 func _process(delta):
+	if _is_first_frame:
+		fireworks.restart()
+		fog.restart()
+		confetti.restart()
+	_is_first_frame = false
 	if len(_people) > 0:
 		var avg_vibe = 0.0
 		for person in _people:
@@ -57,8 +67,33 @@ func _on_Board_pattern_emitted(pattern):
 
 func _on_RoundEnd_timeout():
 	var cash = pow(alive_meter.value * len(_people), 1.1)
-	emit_signal("round_ended", cash)
+	emit_signal("round_ended", cash, board.item_dict)
 
 
 func _on_Board_fireworks_emitted():
 	fireworks.restart()
+	fireworks_audio.play()
+	for person in _people:
+		if randi() % 2 == 0:
+			person.arouse()
+			person.arouse()
+
+
+func _on_Board_fog_emitted():
+	fog.restart()
+	fog_audio.play()
+	for person in _people:
+		if randi() % 3 == 0:
+			person.arouse()
+	for person in _people:
+		if randi() % 3 == 0:
+			person.arouse()
+
+
+func _on_Board_confetti_emitted():
+	confetti.restart()
+	confetti_audio.play()
+	for person in _people:
+		if randi() % 3 == 0:
+			person.arouse()
+			person.arouse()

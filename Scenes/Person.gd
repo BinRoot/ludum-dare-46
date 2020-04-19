@@ -4,6 +4,8 @@ onready var body : MeshInstance = $Body
 onready var right_arm : MeshInstance = $RightArm
 onready var left_arm : MeshInstance = $LeftArm
 onready var head : MeshInstance = $Head
+onready var pattern_tween : Tween = $PatternTween
+onready var ding : AudioStreamPlayer = $Ding
 
 var PATTERN_SIZE = 10
 
@@ -26,8 +28,10 @@ var _pattern_holder : Panel
 
 var _time_since_aroused = 0
 
+
 func _ready():
 	randomize()
+	ding.pitch_scale *= randf()
 	_original_body_translation = body.translation
 	_original_head_translation = head.translation
 	_original_left_arm_translation = left_arm.translation
@@ -62,6 +66,27 @@ func _ready():
 		cr.rect_min_size = Vector2(PATTERN_SIZE, PATTERN_SIZE)
 		add_child(cr)
 		_pattern_rects.append(cr)
+
+func pulse_pattern():
+	ding.play()
+	pattern_tween.interpolate_property(_pattern_holder, "rect_scale",
+		Vector2(1, 1), Vector2(1.5, 1.5), 0.2,
+		Tween.TRANS_CUBIC, Tween.EASE_OUT)
+	pattern_tween.start()
+	yield(pattern_tween, "tween_completed")
+	pattern_tween.interpolate_property(_pattern_holder, "rect_scale",
+		Vector2(1.5, 1.5), Vector2(1, 1), 0.2,
+		Tween.TRANS_CUBIC, Tween.EASE_OUT)
+	pattern_tween.start()
+
+func arouse():
+	_time_since_aroused = 0
+	if vibe == VIBE_IDLE:
+		vibe = VIBE_LOW
+	elif vibe == VIBE_LOW:
+		vibe = VIBE_HIGH
+	
+	#_pattern_holder.set("custom_styles/panel", preload("res://Materials/PanelStyle.tres"))
 	
 
 func handle_pattern(pattern):
@@ -72,11 +97,8 @@ func handle_pattern(pattern):
 	for idx in range(start, start + len(_favorite_pattern)):
 		snip.append(pattern[idx])
 	if snip == _favorite_pattern:
-		_time_since_aroused = 0
-		if vibe == VIBE_IDLE:
-			vibe = VIBE_LOW
-		elif vibe == VIBE_LOW:
-			vibe = VIBE_HIGH
+		arouse()
+		pulse_pattern()
 
 func draw_pattern():
 	var vec2d : Vector2 = get_viewport().get_camera().unproject_position(global_transform.origin)
@@ -86,6 +108,8 @@ func draw_pattern():
 	_pattern_holder.margin_top = vec2d.y - PATTERN_SIZE - 2
 	_pattern_holder.rect_min_size.x = width
 	_pattern_holder.rect_min_size.y = width
+	_pattern_holder.rect_pivot_offset = _pattern_holder.rect_size / 2
+	
 	for i in range(len(_favorite_pattern)):
 		var pattern = _favorite_pattern[i]
 		var cr : ColorRect = _pattern_rects[i]
