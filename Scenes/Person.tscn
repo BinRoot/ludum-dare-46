@@ -65,6 +65,7 @@ stream = ExtResource( 4 )
 volume_db = -4.16
 
 [node name="ChatPanel" type="Panel" parent="."]
+visible = false
 margin_right = 150.0
 margin_bottom = 50.0
 grow_horizontal = 2
