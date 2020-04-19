@@ -1,9 +1,11 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://Scenes/Person.gd" type="Script" id=1]
 [ext_resource path="res://Materials/PlayerSkin.tres" type="Material" id=2]
 [ext_resource path="res://Materials/PersonShirt.tres" type="Material" id=3]
 [ext_resource path="res://Audio/pattern_match.wav" type="AudioStream" id=4]
+[ext_resource path="res://Materials/Face1.tres" type="Material" id=5]
+[ext_resource path="res://Materials/Medium.tres" type="DynamicFont" id=6]
 
 [sub_resource type="CapsuleMesh" id=1]
 
@@ -16,6 +18,15 @@ radius = 0.2
 mid_height = 2.0
 
 [sub_resource type="SphereMesh" id=4]
+
+[sub_resource type="QuadMesh" id=5]
+
+[sub_resource type="StyleBoxFlat" id=6]
+bg_color = Color( 0.117647, 0.105882, 0.105882, 1 )
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
 
 [node name="Person" type="Spatial" groups=[
 "person",
@@ -42,7 +53,38 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.39185, 0 )
 mesh = SubResource( 4 )
 material/0 = ExtResource( 2 )
 
+[node name="Face" type="MeshInstance" parent="Head"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1.01164 )
+mesh = SubResource( 5 )
+material/0 = ExtResource( 5 )
+
 [node name="PatternTween" type="Tween" parent="."]
 
 [node name="Ding" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 4 )
+volume_db = -4.16
+
+[node name="ChatPanel" type="Panel" parent="."]
+margin_right = 150.0
+margin_bottom = 50.0
+grow_horizontal = 2
+grow_vertical = 2
+rect_min_size = Vector2( 150, 50 )
+custom_styles/panel = SubResource( 6 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ChatMessage" type="Label" parent="ChatPanel"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_fonts/font = ExtResource( 6 )
+text = "I love fireworks!"
+align = 1
+valign = 1
+autowrap = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ChatTween" type="Tween" parent="."]

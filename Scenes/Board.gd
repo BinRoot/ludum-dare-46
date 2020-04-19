@@ -5,6 +5,9 @@ onready var column_timer = $ColumnTimer
 onready var confetti_button = $ConfettiButton
 onready var fireworks_button = $FireworksButton
 onready var fog_button = $FogButton
+onready var boom_timer : Timer = $BoomTimer
+onready var boom_audio : AudioStreamPlayer = $BoomAudio
+
 var current_column = 0
 
 signal pattern_emitted
@@ -19,7 +22,10 @@ var light_on_material = preload("res://Materials/LightOn.tres")
 var light_material = preload("res://Materials/Light.tres")
 
 func _ready():
-	pass 
+	var audio_players = get_tree().get_nodes_in_group("audio")
+	var random_factor = 0.5 #(randf() / 5) + 0.9
+	for audio_player in audio_players:
+		audio_player.pitch_scale *= random_factor
 
 func enable_buttons():
 	if 'fog' in item_dict and item_dict['fog'] > 0:
@@ -140,3 +146,12 @@ func _on_FogButton_flipped_on():
 	if 'fog' in item_dict and item_dict['fog'] > 0:
 		emit_signal("fog_emitted")
 		item_dict['fog'] -= 1
+
+
+func _on_BoomTimer_timeout():
+	boom_audio.play()
+	if boom_audio.pitch_scale < 0.5:
+		boom_audio.pitch_scale = 1
+	elif boom_audio.pitch_scale > 2:
+		boom_audio.pitch_scale = 1
+	boom_audio.pitch_scale *= (randf()/2) + 0.75

@@ -13,12 +13,16 @@ onready var confetti : Particles = $Confetti
 onready var fireworks_audio : AudioStreamPlayer = $FireworksAudio
 onready var fog_audio : AudioStreamPlayer = $FogAudio
 onready var confetti_audio : AudioStreamPlayer = $ConfettiAudio
+onready var loading_panel : Panel = $Control/LoadingPanel
+
+var person_scene = preload("res://Scenes/Person.tscn")
 
 var _fog_original_translation : Vector3
 var _confetti_original_translation : Vector3
 var _fireworks_original_translation : Vector3
 
-onready var person_scene = preload("res://Scenes/Person.tscn")
+const PARTICLES_ENABLED = true
+
 
 var _people
 var _is_first_frame = true
@@ -28,9 +32,9 @@ func _ready():
 	_fog_original_translation = fog.translation
 	_confetti_original_translation = confetti.translation
 	_fireworks_original_translation = fireworks.translation
-	fog.translation = Vector3(100, 100, 100)
-	confetti.translation = Vector3(100, 100, 100)
-	fireworks.translation = Vector3(100, 100, 100)
+	#fog.translation = Vector3(100, 100, 100)
+	#confetti.translation = Vector3(100, 100, 100)
+	#fireworks.translation = Vector3(100, 100, 100)
 	
 func init_inventory(item_dict):
 	board.item_dict = item_dict
@@ -41,8 +45,8 @@ func populate_people(num):
 		var candidate_vecs = []
 		var min_penalty = 99999
 		var min_penalty_idx = -1
-		for ridx in range(50):
-			var candidate_vec = Vector3((randf() - 0.5) * 20, 0, (randf() - 0.5) * 3)
+		for ridx in range(10):
+			var candidate_vec = Vector3((randf() - 0.5) * 15, 0, (randf() - 0.5) * 3)
 			candidate_vecs.append(candidate_vec);
 			var penalty = 0
 			for p in _people:
@@ -58,7 +62,7 @@ func populate_people(num):
 	_people = get_tree().get_nodes_in_group("person")
 
 func _process(delta):
-	if _is_first_frame:
+	if _is_first_frame and PARTICLES_ENABLED:
 		fireworks.restart()
 		fog.restart()
 		confetti.restart()
@@ -72,6 +76,7 @@ func _process(delta):
 	time_label.text = str(int(round_end_timer.time_left))
 
 func _on_Board_pattern_emitted(pattern):
+	loading_panel.visible = false
 	get_tree().call_group("person", "handle_pattern", pattern)
 
 
@@ -82,31 +87,38 @@ func _on_RoundEnd_timeout():
 
 func _on_Board_fireworks_emitted():
 	fireworks.translation = _fireworks_original_translation
-	fireworks.restart()
+	if PARTICLES_ENABLED:
+		fireworks.restart()
 	fireworks_audio.play()
 	for person in _people:
-		if randi() % 2 == 0:
+		if randi() % 5 != 0:
 			person.arouse()
 			person.arouse()
+			person.pulse_chat_fireworks()
 
 
 func _on_Board_fog_emitted():
 	fog.translation = _fog_original_translation	
-	fog.restart()
+	if PARTICLES_ENABLED:
+		fog.restart()
 	fog_audio.play()
 	for person in _people:
 		if randi() % 3 == 0:
 			person.arouse()
+			person.pulse_chat_fog()
 	for person in _people:
 		if randi() % 3 == 0:
 			person.arouse()
+			person.pulse_chat_fog()
 
 
 func _on_Board_confetti_emitted():
 	confetti.translation = _confetti_original_translation
-	confetti.restart()
+	if PARTICLES_ENABLED:
+		confetti.restart()
 	confetti_audio.play()
 	for person in _people:
 		if randi() % 3 == 0:
 			person.arouse()
 			person.arouse()
+			person.pulse_chat_confetti()

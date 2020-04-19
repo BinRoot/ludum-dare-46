@@ -1,15 +1,13 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://Scenes/Button.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Materials/Board.tres" type="Material" id=2]
 [ext_resource path="res://Scenes/Board.gd" type="Script" id=3]
 [ext_resource path="res://Materials/Light.tres" type="Material" id=4]
-[ext_resource path="res://Audio/beep_a_r1.wav" type="AudioStream" id=5]
-[ext_resource path="res://Audio/beep_a_r3.wav" type="AudioStream" id=6]
-[ext_resource path="res://Audio/beep_a_r2.wav" type="AudioStream" id=7]
-[ext_resource path="res://Audio/beep_b_r1.wav" type="AudioStream" id=8]
-[ext_resource path="res://Audio/beep_b_r2.wav" type="AudioStream" id=9]
-[ext_resource path="res://Audio/beep_b_r3.wav" type="AudioStream" id=10]
+[ext_resource path="res://Audio/boom.wav" type="AudioStream" id=5]
+[ext_resource path="res://Audio/beep_c_r3.wav" type="AudioStream" id=6]
+[ext_resource path="res://Audio/beep_c_r1.wav" type="AudioStream" id=7]
+[ext_resource path="res://Audio/beep_c_r2.wav" type="AudioStream" id=8]
 [ext_resource path="res://Scenes/BigButton.tscn" type="PackedScene" id=11]
 
 [sub_resource type="CubeMesh" id=1]
@@ -46,112 +44,142 @@ material/0 = ExtResource( 2 )
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.6, 0.128, 0 )
 row = 2
 
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="Flat/Button_r2_c1"]
-stream = ExtResource( 9 )
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="Flat/Button_r2_c1" groups=[
+"audio",
+]]
+stream = ExtResource( 8 )
 
 [node name="Button_r2_c2" parent="Flat" instance=ExtResource( 1 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.3, 0.128, 0 )
 row = 2
 col = 2
 
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="Flat/Button_r2_c2"]
-stream = ExtResource( 9 )
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="Flat/Button_r2_c2" groups=[
+"audio",
+]]
+stream = ExtResource( 8 )
 
 [node name="Button_r2_c3" parent="Flat" instance=ExtResource( 1 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.128296, 0 )
 row = 2
 col = 3
 
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="Flat/Button_r2_c3"]
-stream = ExtResource( 9 )
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="Flat/Button_r2_c3" groups=[
+"audio",
+]]
+stream = ExtResource( 8 )
 
 [node name="Button_r2_c4" parent="Flat" instance=ExtResource( 1 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.3, 0.128, 0 )
 row = 2
 col = 4
 
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="Flat/Button_r2_c4"]
-stream = ExtResource( 9 )
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="Flat/Button_r2_c4" groups=[
+"audio",
+]]
+stream = ExtResource( 8 )
 
 [node name="Button_r2_c5" parent="Flat" instance=ExtResource( 1 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.6, 0.128, 0 )
 row = 2
 col = 5
 
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="Flat/Button_r2_c5"]
-stream = ExtResource( 7 )
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="Flat/Button_r2_c5" groups=[
+"audio",
+]]
+stream = ExtResource( 8 )
 
 [node name="Button_r1_c1" parent="Flat" instance=ExtResource( 1 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.6, 0.128, -0.25 )
 
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="Flat/Button_r1_c1"]
-stream = ExtResource( 8 )
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="Flat/Button_r1_c1" groups=[
+"audio",
+]]
+stream = ExtResource( 7 )
 
 [node name="Button_r1_c2" parent="Flat" instance=ExtResource( 1 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.3, 0.128, -0.25 )
 col = 2
 
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="Flat/Button_r1_c2"]
-stream = ExtResource( 8 )
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="Flat/Button_r1_c2" groups=[
+"audio",
+]]
+stream = ExtResource( 7 )
 
 [node name="Button_r1_c3" parent="Flat" instance=ExtResource( 1 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.128296, -0.25 )
 col = 3
 
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="Flat/Button_r1_c3"]
-stream = ExtResource( 8 )
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="Flat/Button_r1_c3" groups=[
+"audio",
+]]
+stream = ExtResource( 7 )
 
 [node name="Button_r1_c4" parent="Flat" instance=ExtResource( 1 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.3, 0.128, -0.25 )
 col = 4
 
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="Flat/Button_r1_c4"]
-stream = ExtResource( 8 )
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="Flat/Button_r1_c4" groups=[
+"audio",
+]]
+stream = ExtResource( 7 )
 
 [node name="Button_r1_c5" parent="Flat" instance=ExtResource( 1 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.6, 0.128, -0.25 )
 col = 5
 
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="Flat/Button_r1_c5"]
-stream = ExtResource( 5 )
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="Flat/Button_r1_c5" groups=[
+"audio",
+]]
+stream = ExtResource( 7 )
 
 [node name="Button_r3_c1" parent="Flat" instance=ExtResource( 1 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.6, 0.128, 0.25 )
 row = 3
 
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="Flat/Button_r3_c1"]
-stream = ExtResource( 10 )
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="Flat/Button_r3_c1" groups=[
+"audio",
+]]
+stream = ExtResource( 6 )
 
 [node name="Button_r3_c2" parent="Flat" instance=ExtResource( 1 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.3, 0.128, 0.25 )
 row = 3
 col = 2
 
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="Flat/Button_r3_c2"]
-stream = ExtResource( 10 )
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="Flat/Button_r3_c2" groups=[
+"audio",
+]]
+stream = ExtResource( 6 )
 
 [node name="Button_r3_c3" parent="Flat" instance=ExtResource( 1 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.128296, 0.25 )
 row = 3
 col = 3
 
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="Flat/Button_r3_c3"]
-stream = ExtResource( 10 )
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="Flat/Button_r3_c3" groups=[
+"audio",
+]]
+stream = ExtResource( 6 )
 
 [node name="Button_r3_c4" parent="Flat" instance=ExtResource( 1 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.3, 0.128, 0.25 )
 row = 3
 col = 4
 
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="Flat/Button_r3_c4"]
-stream = ExtResource( 10 )
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="Flat/Button_r3_c4" groups=[
+"audio",
+]]
+stream = ExtResource( 6 )
 
 [node name="Button_r3_c5" parent="Flat" instance=ExtResource( 1 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.6, 0.128, 0.25 )
 row = 3
 col = 5
 
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="Flat/Button_r3_c5"]
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="Flat/Button_r3_c5" groups=[
+"audio",
+]]
 stream = ExtResource( 6 )
 
 [node name="light_c1" type="MeshInstance" parent="Flat"]
@@ -180,12 +208,12 @@ mesh = SubResource( 6 )
 material/0 = ExtResource( 4 )
 
 [node name="Timer" type="Timer" parent="."]
-wait_time = 0.5
+wait_time = 0.001
 one_shot = true
 autostart = true
 
 [node name="ColumnTimer" type="Timer" parent="."]
-wait_time = 0.25
+wait_time = 0.3
 
 [node name="ConfettiButton" parent="." instance=ExtResource( 11 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.02467, 0.132272, 0.253985 )
@@ -201,6 +229,14 @@ icon = "fireworks"
 transform = Transform( 0.7, 0, 0, 0, 0.7, 0, 0, 0, 0.7, -1.02467, 0.132272, -0.210746 )
 visible = false
 icon = "fog"
+
+[node name="BoomTimer" type="Timer" parent="."]
+wait_time = 0.6
+autostart = true
+
+[node name="BoomAudio" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 5 )
+volume_db = -10.0
 [connection signal="flipped_on" from="Flat/Button_r2_c1" to="." method="_on_Button_flipped_on"]
 [connection signal="flipped_on" from="Flat/Button_r2_c2" to="." method="_on_Button_flipped_on"]
 [connection signal="flipped_on" from="Flat/Button_r2_c3" to="." method="_on_Button_flipped_on"]
@@ -221,3 +257,4 @@ icon = "fog"
 [connection signal="flipped_on" from="ConfettiButton" to="." method="_on_ConfettiButton_flipped_on"]
 [connection signal="flipped_on" from="FireworksButton" to="." method="_on_FireworksButton_flipped_on"]
 [connection signal="flipped_on" from="FogButton" to="." method="_on_FogButton_flipped_on"]
+[connection signal="timeout" from="BoomTimer" to="." method="_on_BoomTimer_timeout"]

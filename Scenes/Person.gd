@@ -6,6 +6,14 @@ onready var left_arm : MeshInstance = $LeftArm
 onready var head : MeshInstance = $Head
 onready var pattern_tween : Tween = $PatternTween
 onready var ding : AudioStreamPlayer = $Ding
+onready var face : MeshInstance = $Head/Face
+onready var chat_panel : Control = $ChatPanel
+onready var chat_message : Label = $ChatPanel/ChatMessage
+onready var chat_tween : Tween = $ChatTween
+
+var face1_material = preload("res://Materials/Face1.tres")
+var face2_material = preload("res://Materials/Face2.tres")
+var face3_material = preload("res://Materials/Face3.tres")
 
 var PATTERN_SIZE = 10
 
@@ -28,10 +36,37 @@ var _pattern_holder : Panel
 
 var _time_since_aroused = 0
 
+var noise1d
+var noise1d_idx = 0
+
+var intents = {
+	"yay": [
+		"Yay!", "Yes!", "Woohoo!", "YEAA!", "YEA!", "Yea!!!", "Aww yea!",
+		"Aww yeaaa!", "LET'S GOOO!", "WOO HOO!", "OHHH YEEAA", "YES",
+		"!!!", "Sweet!", "NICE!", "Woah!", "WOOO!"
+	],
+	"fireworks": [
+		"Beautiful!", "I love fireworks!", "Wow! Fireworks!", "Fireworks!",
+		"Awesome fireworks!", "The sky is glowing!", "FIREWORKS!"
+	],
+	"fog": [
+		"Fog machine!", "This fog's cool!", "Cool fog!", "Love the mist!",
+		"FOG!", "I love fog!"
+	],
+	"confetti": [
+		"So much confetti!", "I love confetti", "CONFETTI!", "It's beautiful!",
+		"It's a confetti party!", "CONFETTI PARTY!", "It's like a dream!"
+	]
+}
 
 func _ready():
 	randomize()
-	ding.pitch_scale *= randf()
+	noise1d = OpenSimplexNoise.new()
+	noise1d.seed = randi()
+	var spatial_material = SpatialMaterial.new()
+	spatial_material.albedo_color = Color(randf(), randf(), randf())
+	body.set_surface_material(0, spatial_material)
+	ding.pitch_scale *= (randf() + 0.1) / 2
 	_original_body_translation = body.translation
 	_original_head_translation = head.translation
 	_original_left_arm_translation = left_arm.translation
@@ -79,14 +114,38 @@ func pulse_pattern():
 		Tween.TRANS_CUBIC, Tween.EASE_OUT)
 	pattern_tween.start()
 
+func pulse_chat(message):
+	chat_message.text = message
+	chat_panel.visible = true
+	var vec2d : Vector2 = get_viewport().get_camera().unproject_position(global_transform.origin)
+	chat_panel.rect_position = vec2d
+	chat_panel.rect_position -= chat_panel.rect_size / 2
+	chat_panel.rect_position.y -= chat_panel.rect_size.y * 3
+	chat_tween.interpolate_property(chat_panel, "modulate",
+		Color.white, Color.transparent, 2,
+		Tween.TRANS_CUBIC, Tween.EASE_IN_OUT)
+	chat_tween.start()
+	yield(chat_tween, "tween_completed")
+	chat_panel.visible = false
+
+func pulse_chat_yay():
+	pulse_chat(intents["yay"][randi() % len(intents["yay"])])
+
+func pulse_chat_fog():
+	pulse_chat(intents["fog"][randi() % len(intents["fog"])])
+	
+func pulse_chat_confetti():
+	pulse_chat(intents["confetti"][randi() % len(intents["confetti"])])
+	
+func pulse_chat_fireworks():
+	pulse_chat(intents["fireworks"][randi() % len(intents["fireworks"])])
+
 func arouse():
 	_time_since_aroused = 0
 	if vibe == VIBE_IDLE:
 		vibe = VIBE_LOW
 	elif vibe == VIBE_LOW:
 		vibe = VIBE_HIGH
-	
-	#_pattern_holder.set("custom_styles/panel", preload("res://Materials/PanelStyle.tres"))
 	
 
 func handle_pattern(pattern):
@@ -99,6 +158,7 @@ func handle_pattern(pattern):
 	if snip == _favorite_pattern:
 		arouse()
 		pulse_pattern()
+		pulse_chat_yay()
 
 func draw_pattern():
 	var vec2d : Vector2 = get_viewport().get_camera().unproject_position(global_transform.origin)
@@ -134,6 +194,9 @@ func _process(delta):
 		elif vibe == VIBE_LOW:
 			vibe = VIBE_IDLE
 		_time_since_aroused = 0
+	var noise_sample = noise1d.get_noise_1d(noise1d_idx)
+	noise1d_idx += 1
+	head.rotation.y = noise_sample * vibe / 2
 	body.translation = _original_body_translation
 	body.translation.y += sin(_total_time * vibe*4) / (16 / vibe)
 	head.translation = _original_head_translation
@@ -144,6 +207,12 @@ func _process(delta):
 	right_arm.translation = _original_right_arm_translation
 	right_arm.rotation_degrees = Vector3(-vibe*10, -vibe*10, 0)
 	right_arm.translation.y += vibe * 0.3 + sin(_total_time * vibe) / 16
+	if vibe == VIBE_IDLE:
+		face.set_surface_material(0, face1_material)
+	elif vibe == VIBE_LOW:
+		face.set_surface_material(0, face2_material)
+	else:
+		face.set_surface_material(0, face3_material)
 	draw_pattern()
 	
 	
