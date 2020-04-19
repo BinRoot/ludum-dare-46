@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=31 format=2]
 
 [ext_resource path="res://Scenes/Stage.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Audio/fireworks.wav" type="AudioStream" id=2]
@@ -8,49 +8,98 @@
 [ext_resource path="res://Audio/fog.wav" type="AudioStream" id=6]
 [ext_resource path="res://Audio/confetti.wav" type="AudioStream" id=7]
 [ext_resource path="res://Materials/Medium.tres" type="DynamicFont" id=8]
+[ext_resource path="res://Materials/Title.tres" type="DynamicFont" id=9]
+[ext_resource path="res://Art/circle_pattern.png" type="Texture" id=10]
 
 [sub_resource type="CubeMesh" id=1]
 size = Vector3( 100, 0.1, 100 )
 
+[sub_resource type="StyleBoxFlat" id=16]
+bg_color = Color( 0.215686, 0.811765, 0.0156863, 1 )
+border_width_right = 5
+border_color = Color( 0.611765, 0.780392, 0.211765, 1 )
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+
+[sub_resource type="StyleBoxFlat" id=17]
+bg_color = Color( 0.14902, 0.0235294, 0.0235294, 1 )
+border_width_left = 5
+border_width_top = 2
+border_width_right = 5
+border_width_bottom = 2
+border_color = Color( 0.964706, 0.141176, 0.788235, 1 )
+corner_radius_top_left = 30
+corner_radius_top_right = 30
+corner_radius_bottom_right = 30
+corner_radius_bottom_left = 30
+
+[sub_resource type="Gradient" id=18]
+offsets = PoolRealArray( 0, 0.77037, 1 )
+colors = PoolColorArray( 1, 0.0351562, 0.0351562, 1, 0.689453, 0.140045, 0.494156, 1, 0.791016, 0.561023, 0.219383, 1 )
+
+[sub_resource type="GradientTexture" id=19]
+gradient = SubResource( 18 )
+
+[sub_resource type="Curve" id=20]
+_data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 0.246835, 1 ), -4.42879, -4.42879, 0, 0, Vector2( 1, 0.0795454 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=21]
+curve = SubResource( 20 )
+
 [sub_resource type="ParticlesMaterial" id=2]
 lifetime_randomness = 1.0
 emission_shape = 1
-emission_sphere_radius = 3.0
-flag_rotate_y = true
-spread = 133.97
-gravity = Vector3( 0, -5, 0 )
-radial_accel = 6.9
-radial_accel_random = 0.03
-scale = 0.5
-scale_random = 0.68
-color = Color( 0.996078, 0.054902, 0.054902, 1 )
+emission_sphere_radius = 0.5
+gravity = Vector3( 0, -1, 0 )
+radial_accel = 5.0
+radial_accel_random = 0.26
+scale_random = 0.08
+scale_curve = SubResource( 21 )
+color_ramp = SubResource( 19 )
+hue_variation_random = 0.23
 
 [sub_resource type="SpatialMaterial" id=3]
-albedo_color = Color( 0.894118, 0.945098, 0.027451, 1 )
-metallic = 0.29
-metallic_specular = 1.0
-roughness = 0.16
+flags_unshaded = true
+vertex_color_use_as_albedo = true
+params_blend_mode = 1
+albedo_texture = ExtResource( 10 )
 
 [sub_resource type="QuadMesh" id=4]
 material = SubResource( 3 )
-size = Vector2( 0.5, 1 )
+size = Vector2( 0.5, 0.5 )
+
+[sub_resource type="Gradient" id=11]
+colors = PoolColorArray( 0.507812, 0.971161, 1, 1, 1, 1, 1, 1 )
+
+[sub_resource type="GradientTexture" id=12]
+gradient = SubResource( 11 )
 
 [sub_resource type="ParticlesMaterial" id=7]
-emission_shape = 1
-emission_sphere_radius = 1.0
-gravity = Vector3( 0, -1, 0 )
-radial_accel = 1.0
+emission_shape = 2
+emission_box_extents = Vector3( 7, 0.1, 3 )
+gravity = Vector3( 0, -0.01, 0 )
+color_ramp = SubResource( 12 )
 
 [sub_resource type="SpatialMaterial" id=8]
 flags_transparent = true
-albedo_color = Color( 0.745098, 0.87451, 0.941176, 0.756863 )
+flags_unshaded = true
+vertex_color_use_as_albedo = true
+vertex_color_is_srgb = true
+albedo_color = Color( 0.745098, 0.87451, 0.941176, 0.447059 )
 
 [sub_resource type="SphereMesh" id=6]
 material = SubResource( 8 )
 
+[sub_resource type="Gradient" id=13]
+offsets = PoolRealArray( 0, 0.4, 1 )
+colors = PoolColorArray( 0.54336, 0.880859, 0.323441, 1, 0.4, 0.4, 0.4, 1, 0.265806, 0.603516, 0.150879, 1 )
+
+[sub_resource type="GradientTexture" id=14]
+gradient = SubResource( 13 )
+
 [sub_resource type="ParticlesMaterial" id=9]
 emission_shape = 2
-emission_box_extents = Vector3( 1, 1, 1 )
+emission_box_extents = Vector3( 5, 1, 1 )
 flag_rotate_y = true
 gravity = Vector3( 0, -2, 0 )
 angular_velocity = 2.0
@@ -59,8 +108,13 @@ radial_accel = 0.5
 angle = 22.0
 angle_random = 0.25
 scale = 0.5
+color_ramp = SubResource( 14 )
+
+[sub_resource type="SpatialMaterial" id=15]
+vertex_color_use_as_albedo = true
 
 [sub_resource type="QuadMesh" id=10]
+material = SubResource( 15 )
 
 [node name="Venue" type="Spatial"]
 script = ExtResource( 5 )
@@ -101,6 +155,8 @@ margin_bottom = 175.659
 grow_horizontal = 2
 grow_vertical = 2
 rect_rotation = -90.0
+custom_styles/fg = SubResource( 16 )
+custom_styles/bg = SubResource( 17 )
 value = 25.0
 rounded = true
 percent_visible = false
@@ -128,8 +184,8 @@ anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = -99.0
-margin_top = -43.0
+margin_left = -133.0
+margin_top = -89.0
 margin_right = -10.0
 margin_bottom = -10.0
 grow_horizontal = 2
@@ -149,6 +205,7 @@ margin_right = 20.0
 margin_bottom = 7.0
 grow_horizontal = 2
 grow_vertical = 2
+custom_fonts/font = ExtResource( 9 )
 align = 1
 valign = 1
 __meta__ = {
@@ -163,10 +220,11 @@ autostart = true
 [node name="Fireworks" type="Particles" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.94746, 6.45307 )
 emitting = false
-amount = 80
+amount = 35
 lifetime = 3.0
 one_shot = true
-explosiveness = 0.58
+speed_scale = 0.8
+explosiveness = 1.0
 process_material = SubResource( 2 )
 draw_pass_1 = SubResource( 4 )
 
@@ -174,11 +232,12 @@ draw_pass_1 = SubResource( 4 )
 stream = ExtResource( 2 )
 
 [node name="Fog" type="Particles" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.60775, 4.01906 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.18752, 4.01906 )
 emitting = false
-amount = 50
-lifetime = 10.0
+amount = 40
+lifetime = 8.0
 one_shot = true
+speed_scale = 8.0
 process_material = SubResource( 7 )
 draw_pass_1 = SubResource( 6 )
 

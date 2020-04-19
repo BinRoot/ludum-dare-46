@@ -14,6 +14,10 @@ onready var fireworks_audio : AudioStreamPlayer = $FireworksAudio
 onready var fog_audio : AudioStreamPlayer = $FogAudio
 onready var confetti_audio : AudioStreamPlayer = $ConfettiAudio
 
+var _fog_original_translation : Vector3
+var _confetti_original_translation : Vector3
+var _fireworks_original_translation : Vector3
+
 onready var person_scene = preload("res://Scenes/Person.tscn")
 
 var _people
@@ -21,6 +25,12 @@ var _is_first_frame = true
 
 func _ready():
 	_people = get_tree().get_nodes_in_group("person")
+	_fog_original_translation = fog.translation
+	_confetti_original_translation = confetti.translation
+	_fireworks_original_translation = fireworks.translation
+	fog.translation = Vector3(100, 100, 100)
+	confetti.translation = Vector3(100, 100, 100)
+	fireworks.translation = Vector3(100, 100, 100)
 	
 func init_inventory(item_dict):
 	board.item_dict = item_dict
@@ -71,6 +81,7 @@ func _on_RoundEnd_timeout():
 
 
 func _on_Board_fireworks_emitted():
+	fireworks.translation = _fireworks_original_translation
 	fireworks.restart()
 	fireworks_audio.play()
 	for person in _people:
@@ -80,6 +91,7 @@ func _on_Board_fireworks_emitted():
 
 
 func _on_Board_fog_emitted():
+	fog.translation = _fog_original_translation	
 	fog.restart()
 	fog_audio.play()
 	for person in _people:
@@ -91,6 +103,7 @@ func _on_Board_fog_emitted():
 
 
 func _on_Board_confetti_emitted():
+	confetti.translation = _confetti_original_translation
 	confetti.restart()
 	confetti_audio.play()
 	for person in _people:
